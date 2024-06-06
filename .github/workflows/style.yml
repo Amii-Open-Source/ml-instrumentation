@@ -1,0 +1,30 @@
+name: Style
+
+on:
+  pull_request:
+    branches: [ release ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      # setup the repository
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          cache: 'pip'
+
+      - run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+
+      - run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
+
+      # linting
+      - uses: chartboost/ruff-action@v1
+
+      # type checking
+      - uses: jakebailey/pyright-action@v2
+        with:
+          pylance-version: latest-release
