@@ -57,7 +57,6 @@ class Collector:
 
             self._write(k, v)
 
-        self.next_frame()
         self._frame = -1
 
     def close(self):
