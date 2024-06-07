@@ -3,11 +3,13 @@ from ml_instrumentation.Writer import Writer, Point, SqlPoint
 
 @pytest.fixture
 def writer():
-    return Writer(
+    writer = Writer(
         db_path=':memory:',
         low_watermark=2,
         high_watermark=4,
     )
+    yield writer
+    writer.close()
 
 def test_write1(writer):
     d = Point(
@@ -37,8 +39,6 @@ def test_write1(writer):
         SqlPoint(0, 0, 1.1),
         SqlPoint(1, 0, 2.2),
     ]
-
-    writer.close()
 
 def test_write2(writer):
     for i in range(1_000):
