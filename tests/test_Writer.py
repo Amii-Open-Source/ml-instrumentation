@@ -1,5 +1,5 @@
 import pytest
-from ml_instrumentation.Writer import Writer, Point
+from ml_instrumentation.Writer import Writer, Point, SqlPoint
 
 @pytest.fixture
 def writer():
@@ -21,7 +21,7 @@ def test_write1(writer):
     # should get back a list of datapoints for this measurement
     points = writer.read_metric('measurement-1')
     assert points == [
-        (0, 0, 1.1),
+        SqlPoint(frame=0, id=0, measurement=1.1),
     ]
 
     d = Point(
@@ -34,8 +34,8 @@ def test_write1(writer):
 
     points = writer.read_metric('measurement-1')
     assert points == [
-        (0, 0, 1.1),
-        (1, 0, 2.2),
+        SqlPoint(0, 0, 1.1),
+        SqlPoint(1, 0, 2.2),
     ]
 
     writer.close()
