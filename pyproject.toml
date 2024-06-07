@@ -10,20 +10,22 @@ select = ['F', 'E', 'W', 'B']
 ignore = ['E501', 'E701']
 
 [tool.pyright]
-include = ['src']
+include = ['ml_instrumentation', 'tests']
 venvPath = '.'
 venv = '.venv'
 typeCheckingMode = 'standard'
 useLibraryCodeForTypes = true
 
 [project]
-name = "TODO"
+name = "ml-instrumentation"
 version = "0.0.0"
 description = ""
 authors = [
     {name = "Andy Patterson", email = "andrew.patterson@amii.ca"},
 ]
-dependencies = []
+dependencies = [
+    "numpy~=1.0",
+]
 requires-python = ">=3.10,<3.13"
 readme = "README.md"
 license = {text = "MIT"}
@@ -37,6 +39,7 @@ classifiers = [
 dev = [
     "pip",
     "ruff",
+    "pytest",
     "pyright",
     "commitizen",
     "pre-commit",
