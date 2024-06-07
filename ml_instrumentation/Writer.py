@@ -99,8 +99,13 @@ class Writer:
             cond = f'WHERE id={maybe_quote(exp_id)}'
 
         cur = self._con.cursor()
-        cur = cur.execute(f'SELECT * FROM "{metric}" {cond}')
-        res = cur.fetchall()
+        try:
+            cur = cur.execute(f'SELECT * FROM "{metric}" {cond}')
+            res = cur.fetchall()
+        except sqlite3.OperationalError:
+            logger.warning(f'Specified metric/exp_id does not exist: <{metric}, {exp_id}>')
+            res = []
+
         return res
 
     def close(self):
