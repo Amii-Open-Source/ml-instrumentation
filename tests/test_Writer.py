@@ -1,12 +1,15 @@
+import pytest
 from ml_instrumentation.Writer import Writer, Point
 
-def test_write1():
-    writer = Writer(
+@pytest.fixture
+def writer():
+    return Writer(
         db_path=':memory:',
         low_watermark=2,
         high_watermark=4,
     )
 
+def test_write1(writer):
     d = Point(
         metric='measurement-1',
         exp_id=0,
@@ -37,13 +40,7 @@ def test_write1():
 
     writer.close()
 
-def test_write2():
-    writer = Writer(
-        db_path=':memory:',
-        low_watermark=256,
-        high_watermark=512,
-    )
-
+def test_write2(writer):
     for i in range(1_000):
         d = Point(
             metric='measurement-1',
