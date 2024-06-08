@@ -1,3 +1,4 @@
+import pickle
 import pytest
 from ml_instrumentation.Collector import Collector
 from ml_instrumentation.Sampler import Identity, Ignore
@@ -44,3 +45,23 @@ def test_collector_rw1(collector):
         SqlPoint(frame=1, id=0, measurement=1),
     ]
 
+
+def test_collector_serde(collector):
+    collector.set_experiment_id(0)
+    collector.next_frame()
+
+    collector.collect('m1', 0)
+    collector.next_frame()
+    collector.collect('m1', 1)
+
+    byts = pickle.dumps(collector)
+    collector2: Collector = pickle.loads(byts)
+
+    data1 = collector.get('m1', 0)
+    data2 = collector2.get('m1', 0)
+    assert data1 == data2 == [
+        SqlPoint(frame=0, id=0, measurement=0),
+        SqlPoint(frame=1, id=0, measurement=1),
+    ]
+
+    collector2.close()

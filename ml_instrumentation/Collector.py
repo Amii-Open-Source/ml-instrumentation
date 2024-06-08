@@ -116,14 +116,20 @@ class Collector:
     # -------------------
 
     def __getstate__(self):
-        self._writer.close()
+        data = None
+        if self._tmp_file.startswith(':memory:'):
+            data = self._writer.dump()
+
         ignore_keys = ['_writer']
         return {
-            k: v for k, v in self.__dict__.items() if k not in ignore_keys
+            'data': data,
+            'sub': {
+                k: v for k, v in self.__dict__.items() if k not in ignore_keys
+            },
         }
 
     def __setstate__(self, state):
-        for k, v in state.items():
+        for k, v in state['sub'].items():
             self.__dict__[k] = v
 
         self._writer = Writer(
@@ -131,3 +137,6 @@ class Collector:
             low_watermark=1024,
             high_watermark=2048,
         )
+
+        if state['data'] is not None:
+            self._writer._con.executescript(state['data'])
