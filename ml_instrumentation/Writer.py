@@ -108,6 +108,11 @@ class Writer:
 
         return res
 
+    def dump(self) -> str:
+        self._con.row_factory = None
+        self.sync_now()
+        return ''.join(self._con.iterdump())
+
     def close(self):
         self.sync_now()
         self._con.close()
