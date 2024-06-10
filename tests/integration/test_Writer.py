@@ -1,15 +1,4 @@
-import pytest
-from ml_instrumentation.Writer import Writer, Point, SqlPoint
-
-@pytest.fixture
-def writer():
-    writer = Writer(
-        db_path=':memory:',
-        low_watermark=2,
-        high_watermark=4,
-    )
-    yield writer
-    writer.close()
+from ml_instrumentation.Writer import Point, SqlPoint
 
 def test_write1(writer):
     d = Point(
