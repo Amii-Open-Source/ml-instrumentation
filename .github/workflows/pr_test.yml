@@ -1,0 +1,43 @@
+name: PR Tests
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      # setup the repository
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install uv
+          uv pip compile --extra=dev pyproject.toml -o requirements.txt
+          uv pip sync requirements.txt
+
+      - run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
+
+      - run: pytest tests/ --junitxml=junit/test-results-${{ matrix.os }}-${{ matrix.python-version }}.xml --cov=ml_instrumentation --cov-report=html:coverage/cov-${{ matrix.os }}-${{ matrix.python-version }}.html
+
+      - name: Upload pytest test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results-${{ matrix.os }}-${{ matrix.python-version }}
+          path: |
+            junit/test-results-${{ matrix.os }}-${{ matrix.python-version }}.xml
+            coverage/cov-${{ matrix.os }}-${{ matrix.python-version }}.html
+
+          # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}

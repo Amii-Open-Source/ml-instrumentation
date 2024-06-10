@@ -40,6 +40,7 @@ dev = [
     "pip",
     "ruff",
     "pytest",
+    "pytest-cov",
     "pyright",
     "commitizen",
     "pre-commit",
