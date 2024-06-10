@@ -2,7 +2,7 @@ name: Style
 
 on:
   pull_request:
-    branches: [ release ]
+    branches: [ main ]
 
 jobs:
   check:
@@ -10,14 +10,16 @@ jobs:
     steps:
       # setup the repository
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           cache: 'pip'
 
       - run: |
           python -m venv .venv
           source .venv/bin/activate
-          pip install -r requirements.txt
+          pip install uv
+          uv pip compile --extra=dev pyproject.toml -o requirements.txt
+          uv pip sync requirements.txt
 
       - run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
