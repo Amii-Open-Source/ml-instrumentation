@@ -140,3 +140,4 @@ class Collector:
 
         if state['data'] is not None:
             self._writer._con.executescript(state['data'])
+            self._writer._init_db()
