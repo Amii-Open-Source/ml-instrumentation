@@ -13,8 +13,7 @@ repos:
     # Run the linter.
     - id: ruff
 
-repos:
-  - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.366
-    hooks:
-    - id: pyright
+- repo: https://github.com/RobertCraigie/pyright-python
+  rev: v1.1.366
+  hooks:
+  - id: pyright
