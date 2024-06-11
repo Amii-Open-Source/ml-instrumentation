@@ -152,7 +152,7 @@ class Writer:
             self._avg_write_time = 0.9 * self._avg_write_time + 0.1 * elapsed
 
     def _init_db(self):
-        if not os.path.exists(self._db_path):
+        if not os.path.exists(self._db_path) and self._db_path != ':memory:':
             return
 
         cur = self._con.cursor()
