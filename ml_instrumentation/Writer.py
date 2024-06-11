@@ -156,6 +156,7 @@ class Writer:
             return
 
         cur = self._con.cursor()
+        cur.row_factory = None
         res = cur.execute("SELECT name FROM sqlite_master")
         tables = set(r[0] for r in res.fetchall())
         self._built |= tables
