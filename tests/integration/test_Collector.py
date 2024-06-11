@@ -23,6 +23,25 @@ def test_collector_rw1(basic_collector):
         SqlPoint(frame=1, id=0, measurement=1),
     ]
 
+def test_collector_rw_trailing_edge1(basic_collector):
+    basic_collector.set_experiment_id(0)
+
+    # note: no next_frame call here, it will go after
+    basic_collector.collect('m1', 0)
+    assert basic_collector.get('m1', 0) == [
+        SqlPoint(frame=0, id=0, measurement=0),
+    ]
+
+    basic_collector.next_frame()
+
+    # next_frame can also go in between collect and get
+    basic_collector.collect('m1', 1)
+    basic_collector.next_frame()
+    assert basic_collector.get('m1', 0) == [
+        SqlPoint(frame=0, id=0, measurement=0),
+        SqlPoint(frame=1, id=0, measurement=1),
+    ]
+
 
 def test_collector_serde(basic_collector):
     basic_collector.set_experiment_id(0)
