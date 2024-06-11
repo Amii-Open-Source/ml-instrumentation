@@ -116,6 +116,8 @@ class Collector:
     # -------------------
 
     def __getstate__(self):
+        self._writer.sync_now()
+
         data = None
         if self._tmp_file.startswith(':memory:'):
             data = self._writer.dump()
