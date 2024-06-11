@@ -1,21 +1,15 @@
 import numpy as np
-
-from abc import abstractmethod
-from typing import Callable, Generator
+from typing import Callable
 
 class Sampler:
     def next(self, v: float) -> float | None: ...
     def next_eval(self, c: Callable[[], float]) -> float | None: ...
-
-    @abstractmethod
-    def repeat(self, v: float, times: int) -> Generator[float, None, None]: ...
     def end(self) -> float | None: ...
 
 class Ignore:
     def __init__(self): ...
     def next(self, v): return None
     def next_eval(self, v): return None
-    def repeat(self, v, times): yield None
     def end(self): return None
 
 # by definition, this must be a stateless object
@@ -28,10 +22,6 @@ class Identity(Sampler):
 
     def next_eval(self, c: Callable[[], float]):
         return c()
-
-    def repeat(self, v: float, times: int):
-        for _ in range(times):
-            yield v
 
     def end(self):
         return None
@@ -61,27 +51,6 @@ class Window(Sampler):
     def next_eval(self, c: Callable[[], float]):
         return self.next(c())
 
-    def repeat(self, v: float, times: int):
-        while times > 0:
-            r = self._size - self._clock
-            r = min(times, r)
-
-            # I can save a good chunk of compute if I know the whole window
-            # is filled with v. Then the mean is clearly also v.
-            if self._clock == 0 and r == self._size:
-                times -= r
-                yield v
-                continue
-
-            e = self._clock + r
-            self._b[self._clock:e] = v
-            self._clock = (self._clock + r) % self._size
-
-            times -= r
-
-            if self._clock == 0:
-                yield self._b.mean()
-
     def end(self):
         out = None
         if self._clock > 0:
@@ -109,17 +78,6 @@ class Subsample(Sampler):
         if tick:
             return c()
 
-    def repeat(self, v: float, times: int):
-        if self._clock == 0:
-            yield v
-
-        r = self._clock + times
-        reps = int(r // self._freq)
-        for _ in range(reps):
-            yield v
-
-        self._clock = r % self._freq
-
     def end(self):
         self._clock = 0
         return None
@@ -136,10 +94,6 @@ class MovingAverage(Sampler):
     def next_eval(self, c: Callable[[], float]):
         v = c()
         return self.next(v)
-
-    def repeat(self, v: float, times: int):
-        for _ in range(times):
-            yield self.next(v)
 
     def end(self):
         return None

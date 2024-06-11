@@ -26,11 +26,5 @@ class Pipe(Sampler):
 
         return out
 
-    def repeat(self, v: float, times: int):
-        for _ in range(times):
-            nv = self.next(v)
-            if nv is not None:
-                yield nv
-
     def end(self):
         return None
