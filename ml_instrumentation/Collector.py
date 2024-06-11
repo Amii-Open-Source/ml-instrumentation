@@ -40,6 +40,7 @@ class Collector:
     # -------------
     def set_experiment_id(self, id: str | int):
         self._exp_id = id
+        self._frame = -1
 
     def get_current_experiment_id(self) -> str | int:
         assert self._exp_id is not None
