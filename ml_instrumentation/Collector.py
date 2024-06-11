@@ -83,6 +83,9 @@ class Collector:
         if name in self._ignore:
             return
 
+        if self._frame == -1:
+            self.next_frame()
+
         v = self._sampler.get(name, self._def).next_eval(lmbda)
         if v is None:
             return
