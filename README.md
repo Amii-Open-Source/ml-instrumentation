@@ -1,4 +1,7 @@
 # ml-instrumentation
+
+[![Contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](./CONTRIBUTING.md)
+
 A frame-based data collection utility in python, specifically designed for instrumentation of machine learning experiment code.
 This means that this library will strive for first-class compatibility with common machine learning frameworks, and is written with common HPC best-practices in mind.
 This library aims to have a high-performance write path, off-loading as much data wrangling as possible to asynchronous background workers.
