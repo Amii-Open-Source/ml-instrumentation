@@ -1,7 +1,12 @@
-name: PR Benchmark
+name: Main Benchmark
 on:
-  pull_request:
-    branches: [ main ]
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  deployments: write
 
 jobs:
   benchmark:
