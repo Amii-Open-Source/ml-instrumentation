@@ -1,0 +1,43 @@
+[tool]
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.0.0"
+tag_format = "$version"
+version_files = ["pyproject.toml"]
+
+[tool.ruff.lint]
+select = ['F', 'E', 'W', 'B']
+ignore = ['E501', 'E701']
+
+[tool.pyright]
+include = ['src']
+venvPath = '.'
+venv = '.venv'
+typeCheckingMode = 'standard'
+useLibraryCodeForTypes = true
+
+[project]
+name = "TODO"
+version = "0.0.0"
+description = ""
+authors = [
+    {name = "Andy Patterson", email = "andrew.patterson@amii.ca"},
+]
+dependencies = []
+requires-python = ">=3.10,<3.13"
+readme = "README.md"
+license = {text = "MIT"}
+
+classifiers = [
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pip",
+    "ruff",
+    "pyright",
+    "commitizen",
+    "pre-commit",
+]
