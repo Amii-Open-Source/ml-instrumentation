@@ -41,6 +41,7 @@ dev = [
     "ruff",
     "pytest",
     "pytest-cov",
+    "pytest-benchmark",
     "pyright",
     "commitizen",
     "pre-commit",
