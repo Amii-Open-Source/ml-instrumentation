@@ -6,7 +6,7 @@ tag_format = "$version"
 version_files = ["pyproject.toml"]
 
 [tool.ruff.lint]
-select = ['F', 'E', 'W', 'B']
+select = ['F', 'E', 'W', 'B', 'NPY201']
 ignore = ['E501', 'E701']
 
 [tool.pyright]
