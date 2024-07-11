@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1718649879413,
+  "lastUpdate": 1720723521281,
   "repoUrl": "https://github.com/Amii-Open-Source/ml-instrumentation",
   "entries": {
     "Python Benchmark with pytest-benchmark": [
@@ -104,6 +104,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.001054841824145278",
             "extra": "mean: 2.818100328768227 msec\nrounds: 365"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "andnpatterson@gmail.com",
+            "name": "andnp",
+            "username": "andnp"
+          },
+          "committer": {
+            "email": "160795226+andy-amii@users.noreply.github.com",
+            "name": "andy-amii",
+            "username": "andy-amii"
+          },
+          "distinct": true,
+          "id": "caed571ab688139893f412ce001452d378975f70",
+          "message": "feat: add ability to merge collectors across processes",
+          "timestamp": "2024-07-11T12:44:49-06:00",
+          "tree_id": "51285e63c5d8f32ad4c05622eea6fae1e1e7881f",
+          "url": "https://github.com/Amii-Open-Source/ml-instrumentation/commit/caed571ab688139893f412ce001452d378975f70"
+        },
+        "date": 1720723520452,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/performance/test_Collector.py::test_benchmark_write_path1[basic_collector]",
+            "value": 139.00268502401903,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0022567175370788338",
+            "extra": "mean: 7.194105637795447 msec\nrounds: 127"
+          },
+          {
+            "name": "tests/performance/test_Collector.py::test_benchmark_write_path1[disk_collector]",
+            "value": 95.69376474059906,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0024195118710011107",
+            "extra": "mean: 10.450001655914994 msec\nrounds: 93"
+          },
+          {
+            "name": "tests/performance/test_Collector.py::test_benchmark_read1[basic_collector]",
+            "value": 357.4004371174527,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010885219658171696",
+            "extra": "mean: 2.7979820284085704 msec\nrounds: 352"
+          },
+          {
+            "name": "tests/performance/test_Collector.py::test_benchmark_read1[disk_collector]",
+            "value": 352.60356063552604,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012016543726832854",
+            "extra": "mean: 2.8360462333324676 msec\nrounds: 360"
           }
         ]
       }
