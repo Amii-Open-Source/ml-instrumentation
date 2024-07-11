@@ -6,6 +6,8 @@ from collections import defaultdict
 from typing import Any, Dict, List, NamedTuple, Set
 from concurrent.futures import ThreadPoolExecutor, Future
 
+import ml_instrumentation._utils.sqlite as sqlu
+
 logger = logging.getLogger('ml-instrumentation')
 
 class Point(NamedTuple):
@@ -156,10 +158,7 @@ class Writer:
             return
 
         cur = self._con.cursor()
-        cur.row_factory = None
-        res = cur.execute("SELECT name FROM sqlite_master")
-        tables = set(r[0] for r in res.fetchall())
-        self._built |= tables
+        self._built |= sqlu.get_tables(cur)
 
     # ---------------------
     # -- utility methods --
