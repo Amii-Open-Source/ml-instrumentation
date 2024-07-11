@@ -25,6 +25,7 @@ authors = [
 ]
 dependencies = [
     "numpy>=1.26,<=2.0",
+    "filelock~=3.13",
 ]
 requires-python = ">=3.10,<3.13"
 readme = "README.md"
