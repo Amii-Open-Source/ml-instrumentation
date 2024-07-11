@@ -104,6 +104,9 @@ class Collector:
     def experiment_ids(self):
         return self._idxs
 
+    def merge(self, loc: str):
+        self._writer.merge(loc)
+
     # --------------
     # -- Internal --
     # --------------

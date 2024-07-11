@@ -6,6 +6,8 @@ from collections import defaultdict
 from typing import Any, Dict, List, NamedTuple, Set
 from concurrent.futures import ThreadPoolExecutor, Future
 
+import filelock
+
 import ml_instrumentation._utils.sqlite as sqlu
 
 logger = logging.getLogger('ml-instrumentation')
@@ -125,6 +127,31 @@ class Writer:
     def metrics(self):
         buffered_keys = set(self._buffer.keys())
         return buffered_keys | self._built
+
+    def merge(self, other: str):
+        self.sync_now()
+
+        with filelock.FileLock(f'{other}.lock'):
+            other_con = sqlite3.connect(other)
+
+            cur = self._con.cursor()
+            other_cur = other_con.cursor()
+            tables = sqlu.get_tables(cur)
+            other_tables = sqlu.get_tables(other_cur)
+
+            to_build = tables - other_tables
+            for table in to_build:
+                other_cur.execute(f'CREATE TABLE "{table}"(frame, id, measurement)')
+
+            other_con.close()
+
+            cur.execute(f'ATTACH DATABASE "{other}" AS other_db')
+            for table in tables:
+                cur.execute(f'INSERT INTO other_db.{table} SELECT * FROM {table}')
+
+            self._con.commit()
+            cur.execute('DETACH DATABASE other_db')
+            cur.close()
 
     # -------------------
     # -- Backend logic --

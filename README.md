@@ -47,6 +47,9 @@ for step in range(exp.max_steps):
   # not all values need to be stored at each frame
   if step % 100 == 0:
     collector.collect('special', 'test value')
+
+# send the results to some shared storage location
+collector.merge('$SCRATCH/project-name/experiment-name.db')
 ```
 
 ## API Documentation
@@ -214,6 +217,21 @@ assert a == [
   (     1,             0,    44),
 ]
 ```
+
+#### `merge(loc: str)`
+Send the collected data to some shared storage location.
+Designed to be run from many parallel processes, merging collected data into a single shared db in one large dump --- reducing the number of metadata touches to HPC filesystems.
+```python
+collector.merge('/some/shared/storage.db')
+
+import sqlite3
+con = sqlite3.connect('/some/shared/storage.db')
+cur = con.cursor()
+
+cur.execute('SELECT * FROM <metric-name>')
+results = cur.fetchall()
+```
+
 
 ### Sampling
 The collection process is controlled through `Sampler` objects specified in the configuration of the collector.
