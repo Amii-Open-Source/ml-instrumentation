@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1720723521281,
+  "lastUpdate": 1721667408985,
   "repoUrl": "https://github.com/Amii-Open-Source/ml-instrumentation",
   "entries": {
     "Python Benchmark with pytest-benchmark": [
@@ -156,6 +156,58 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0012016543726832854",
             "extra": "mean: 2.8360462333324676 msec\nrounds: 360"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "160795226+andy-amii@users.noreply.github.com",
+            "name": "andy-amii",
+            "username": "andy-amii"
+          },
+          "distinct": true,
+          "id": "682c13e6b6b09fe85eba408a002d9ca3d6a72168",
+          "message": "chore(deps): update numpy requirement in the python-deps group\n\nUpdates the requirements on [numpy](https://github.com/numpy/numpy) to permit the latest version.\n\nUpdates `numpy` to 2.0.1\n- [Release notes](https://github.com/numpy/numpy/releases)\n- [Changelog](https://github.com/numpy/numpy/blob/main/doc/RELEASE_WALKTHROUGH.rst)\n- [Commits](https://github.com/numpy/numpy/compare/v1.26.0...v2.0.1)\n\n---\nupdated-dependencies:\n- dependency-name: numpy\n  dependency-type: direct:production\n  dependency-group: python-deps\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>",
+          "timestamp": "2024-07-22T10:56:21-06:00",
+          "tree_id": "c294e8b3ae6d4c434da0ab5217de754a289f68aa",
+          "url": "https://github.com/Amii-Open-Source/ml-instrumentation/commit/682c13e6b6b09fe85eba408a002d9ca3d6a72168"
+        },
+        "date": 1721667408551,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/performance/test_Collector.py::test_benchmark_write_path1[basic_collector]",
+            "value": 138.36177212591835,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0021185483294214927",
+            "extra": "mean: 7.227429835821515 msec\nrounds: 134"
+          },
+          {
+            "name": "tests/performance/test_Collector.py::test_benchmark_write_path1[disk_collector]",
+            "value": 100.05517730354283,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001934956009587043",
+            "extra": "mean: 9.994485312501578 msec\nrounds: 64"
+          },
+          {
+            "name": "tests/performance/test_Collector.py::test_benchmark_read1[basic_collector]",
+            "value": 364.821072358596,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0011709479415729562",
+            "extra": "mean: 2.741069734637103 msec\nrounds: 358"
+          },
+          {
+            "name": "tests/performance/test_Collector.py::test_benchmark_read1[disk_collector]",
+            "value": 362.4850488361858,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010336888491414135",
+            "extra": "mean: 2.7587344725269483 msec\nrounds: 364"
           }
         ]
       }
